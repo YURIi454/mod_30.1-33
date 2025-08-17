@@ -1,0 +1,23 @@
+from django.urls import path
+from rest_framework.routers import DefaultRouter
+
+from on_learning.views import (
+    CourseViewSet,
+    LessonCreateAPIView,
+    LessonListAPIView,
+    LessonRetrieveAPIView,
+    LessonUpdateAPIView, LessonDeleteAPIView,
+)
+
+app_name = 'on_learning'
+
+router = DefaultRouter()
+router.register(r'course', CourseViewSet, basename='course')
+
+urlpatterns = [
+                  path('lesson/create/', LessonCreateAPIView.as_view(), name='moto_create'),
+                  path('lesson/list/', LessonListAPIView.as_view(), name='moto_list'),
+                  path('lesson/<int:pk>/', LessonRetrieveAPIView.as_view(), name='moto_detail'),
+                  path('lesson/update/<int:pk>/', LessonUpdateAPIView.as_view(), name='moto_update'),
+                  path('lesson/delete/<int:pk>/', LessonDeleteAPIView.as_view(), name='moto_delet'),
+              ] + router.urls

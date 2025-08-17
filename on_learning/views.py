@@ -1,3 +1,5 @@
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
@@ -12,6 +14,7 @@ class CourseViewSet(ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [permissions.AllowAny]
+    filter_backends = [DjangoFilterBackend]
 
 
 class LessonCreateAPIView(CreateAPIView):
@@ -24,8 +27,12 @@ class LessonCreateAPIView(CreateAPIView):
 class LessonListAPIView(ListAPIView):
     """ Просмотр списка уроков. """
 
-    serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    search_fields = ["name", "description", "course"]
+    ordering_fields = ["name"]
+    ordering = ["-name"]
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):

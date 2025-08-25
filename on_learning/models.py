@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import RESTRICT
+from django.db.models import RESTRICT, SET_NULL
 
 
 class Course(models.Model):
@@ -7,6 +7,7 @@ class Course(models.Model):
 
     name = models.CharField(unique=True, max_length=150)
     description = models.TextField(max_length=1000)
+    owner = models.ForeignKey('users.CustomUser', on_delete=SET_NULL, blank=True, null=True, verbose_name='владелец')
     preview = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Изображение')
     created_at = models.DateTimeField(auto_now=True, verbose_name='Добавлен')
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name='Изменён')
@@ -25,6 +26,7 @@ class Lesson(models.Model):
 
     name = models.CharField(unique=True, max_length=150)
     description = models.TextField(max_length=1000)
+    owner = models.ForeignKey('users.CustomUser', on_delete=SET_NULL, blank=True, null=True, verbose_name='владелец')
     preview = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Изображение')
     video = models.URLField(null=True, blank=True, verbose_name='Ссылка на видео')
     course = models.ForeignKey(Course, on_delete=RESTRICT, verbose_name='Курс')

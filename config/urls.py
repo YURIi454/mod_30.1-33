@@ -25,4 +25,6 @@ urlpatterns = [
     path('', include('on_learning.urls', namespace='on_learning')),
     path('users/', include('users.urls', namespace='users')),
     path('api-auth/', include('rest_framework.urls')),
+
+
 ]

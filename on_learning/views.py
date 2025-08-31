@@ -1,13 +1,16 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 
-from on_learning.models import Course, Lesson
+from on_learning.models import Course, Lesson, Subscribe
+from on_learning.paginators import LessonPagination
 from on_learning.serializers import CourseSerializer, LessonSerializer
 
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from users.permissions import OwnerOrManagerPerm, OwnerOnlyPerm
@@ -52,6 +55,7 @@ class CourseDeleteAPIView(DestroyAPIView):
     serializer_class = CourseSerializer
     permission_classes = [OwnerOnlyPerm]
 
+
 # endregion
 
 # region CRUD для урока
@@ -79,6 +83,7 @@ class LessonListAPIView(ListAPIView):
     ordering_fields = ["name"]
     ordering = ["-name"]
     permission_classes = [IsAuthenticated]
+    pagination_class = LessonPagination
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):
@@ -102,4 +107,28 @@ class LessonDeleteAPIView(DestroyAPIView):
 
     queryset = Lesson.objects.all()
     permission_classes = [OwnerOnlyPerm]
+
+
+# endregion
+
+# region подписка
+class SubscribeView(APIView):
+    """  Добавление и удаление подписки пользователя. """
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        course_id = request.data.get("course_id")
+        course = get_object_or_404(Course, id=course_id)
+
+        subscribe = Subscribe.objects.filter(user=user, course=course)
+
+        if subscribe.exists():
+            subscribe.delete()
+            return Response(status=204)
+        else:
+            Subscribe.objects.create(user=user, course=course)
+            return Response(status=201)
+
 # endregion

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from on_learning.models import Course, Lesson
+from on_learning.validators import CorrectURLValidator
 from users.models import Payments
 
 
@@ -9,6 +10,7 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['name', 'description', 'video', 'course', ]
+        validators = [CorrectURLValidator('video')]
 
 
 class CourseSerializer(serializers.ModelSerializer):

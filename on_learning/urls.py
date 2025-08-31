@@ -6,7 +6,9 @@ from on_learning.views import (
     LessonCreateAPIView,
     LessonListAPIView,
     LessonRetrieveAPIView,
-    LessonUpdateAPIView, LessonDeleteAPIView,
+    LessonUpdateAPIView,
+    LessonDeleteAPIView,
+    SubscribeView,
 )
 
 app_name = 'on_learning'
@@ -20,4 +22,5 @@ urlpatterns = [
                   path('lesson/<int:pk>/', LessonRetrieveAPIView.as_view(), name='lesson_detail'),
                   path('lesson/update/<int:pk>/', LessonUpdateAPIView.as_view(), name='lesson_update'),
                   path('lesson/delete/<int:pk>/', LessonDeleteAPIView.as_view(), name='lesson_delete'),
+                  path('subscribe/', SubscribeView.as_view(), name='subscribe'),
               ] + router.urls

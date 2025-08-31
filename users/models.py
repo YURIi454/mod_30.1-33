@@ -2,8 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import DO_NOTHING, CASCADE
 
-from on_learning.models import Course, Lesson
-
 
 class CustomUser(AbstractUser):
     """ Пользователь. """
@@ -37,11 +35,11 @@ class Payments(models.Model):
 
     name = models.CharField(unique=True, max_length=150, verbose_name='номер платежа')
     user = models.ForeignKey(CustomUser, on_delete=CASCADE, verbose_name='оплатил', )
-    course = models.ForeignKey(Course, on_delete=DO_NOTHING, verbose_name='курс', )
-    lesson = models.ForeignKey(Lesson, on_delete=DO_NOTHING, verbose_name='урок', )
+    course = models.ForeignKey('on_learning.Course', on_delete=DO_NOTHING, verbose_name='курс', )
+    lesson = models.ForeignKey('on_learning.Lesson', on_delete=DO_NOTHING, verbose_name='урок', )
     payment_day = models.DateTimeField(null=True, blank=True, verbose_name='дата платежа')
     amount = models.DecimalField(default=0.0, decimal_places=2, max_digits=8, verbose_name='сумма')
-    payment_method = models.CharField(choices=pay_met_list, default='transfer', null=True, blank=True,
+    payment_method = models.CharField(choices=pay_met_list, default='transfer',
                                       verbose_name='способ оплаты')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='создан')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='изменён')

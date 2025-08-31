@@ -2,8 +2,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.generics import (
+    CreateAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView, RetrieveUpdateAPIView)
+
 from users.models import Payments, CustomUser
 from users.permissions import OwnerOnlyPerm
 from users.serializers import PaymentsSerializer, CustomUserSerializer
@@ -16,26 +21,35 @@ class CreateCustomUser(CreateAPIView):
     serializer_class = CustomUserSerializer
 
 
-class UpdateCustomUser(UpdateAPIView):
+class UpdateCustomUser(RetrieveUpdateAPIView):
     """ Редактирование пользователя. """
 
-    permission_classes = [IsAuthenticated, OwnerOnlyPerm, ]
+    filter_backends = [DjangoFilterBackend, OrderingFilter,]
+    permission_classes = [IsAuthenticated, ]
     serializer_class = CustomUserSerializer
+
+    def get_queryset(self):
+        return CustomUser.objects.filter(id=self.request.user.id)
 
 
 class CustomUserDetail(RetrieveAPIView):
     """ Просмотр данных пользователя. """
 
-    permission_classes = [IsAuthenticated, OwnerOnlyPerm, ]
-    queryset = CustomUser.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter,]
+    permission_classes = [IsAuthenticated, ]
     serializer_class = CustomUserSerializer
+
+    def get_queryset(self):
+        return CustomUser.objects.filter(id=self.request.user.id)
 
 
 class DeleteCustomUser(DestroyAPIView):
     """ Удаление пользователя. """
 
     permission_classes = [IsAuthenticated, OwnerOnlyPerm, ]
-    serializer_class = CustomUserSerializer
+
+    def get_queryset(self):
+        return CustomUser.objects.filter(id=self.request.user.id)
 
 
 # endregion
@@ -44,7 +58,7 @@ class DeleteCustomUser(DestroyAPIView):
 class PaymentCreateAPIView(CreateAPIView):
     """ Создание платежа. """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, ]
     queryset = Payments.objects.all()
     serializer_class = PaymentsSerializer
 
@@ -52,11 +66,11 @@ class PaymentCreateAPIView(CreateAPIView):
 class PaymentListAPIView(ListAPIView):
     """ Список платежей. """
 
-    permission_classes = [IsAuthenticated, OwnerOnlyPerm]
+    permission_classes = [IsAuthenticated, OwnerOnlyPerm, ]
     queryset = Payments.objects.all()
     serializer_class = PaymentsSerializer
 
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter,]
     search_fields = ["course", "lesson", "payment_method"]
     ordering_fields = ["payment_day"]
     ordering = ["-payment_day"]
@@ -65,15 +79,18 @@ class PaymentListAPIView(ListAPIView):
 class PaymentUpdateAPIView(UpdateAPIView):
     """ Обновление платежа. """
 
-    permission_classes = [IsAuthenticated, OwnerOnlyPerm]
-    queryset = Payments.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    permission_classes = [IsAuthenticated,]
     serializer_class = PaymentsSerializer
+
+    def get_queryset(self):
+        return Payments.objects.filter(user=self.request.user)
 
 
 class PaymentDeleteAPIView(DestroyAPIView):
     """ Удаление платежа. """
 
-    permission_classes = [IsAuthenticated, OwnerOnlyPerm]
+    permission_classes = [IsAuthenticated, OwnerOnlyPerm, ]
     queryset = Payments.objects.all()
 
 # endregion

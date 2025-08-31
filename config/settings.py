@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
+
 from dotenv import load_dotenv
 
 from datetime import timedelta
@@ -22,6 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True if os.getenv("DEBUG") == "True" else False
+
+ALLOWED_URLS = ['youtube.com', ]  # допустимые URL для ссылок модели lesson поле video
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -78,6 +81,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+
 }
 
 SIMPLE_JWT = {
@@ -133,3 +137,8 @@ AUTH_USER_MODEL = "users.CustomUser"
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "users:login"
 LOGOUT_REDIRECT_URL = "/"
+
+COVERAGE_REPORT_HTML_OUTPUT_DIR = 'htmlcov'
+COVERAGE_USE_CACHE = True
+COVERAGE_PATH_EXCLUDES = ['migrations',]
+COVERAGE_MODULE_EXCLUDES = []

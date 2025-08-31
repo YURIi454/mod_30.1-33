@@ -15,4 +15,5 @@ class OwnerOnlyPerm(BasePermission):
     """ Разрешения на обновление. """
 
     def has_permission(self, request, view):
-        return request.user == view.get_object.owner
+        obj = view.get_object()
+        return request.user == obj.owner

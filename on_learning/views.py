@@ -8,12 +8,15 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 
 from on_learning.models import Course, Lesson, Subscribe
-from on_learning.paginators import LessonPagination
+# from on_learning.paginators import LessonPagination TODO заданы глобальные настройки пагинации
 from on_learning.serializers import CourseSerializer, LessonSerializer
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
+from users.models import CustomUser
 from users.permissions import OwnerOrManagerPerm, OwnerOnlyPerm
+from users.serializers import PaymentsSerializer
+from users.services import create_stripe_price_amount, create_stripe_session
 
 
 # region CRUD для курса
@@ -83,7 +86,6 @@ class LessonListAPIView(ListAPIView):
     ordering_fields = ["name"]
     ordering = ["-name"]
     permission_classes = [IsAuthenticated]
-    pagination_class = LessonPagination
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):
@@ -131,4 +133,20 @@ class SubscribeView(APIView):
             Subscribe.objects.create(user=user, course=course)
             return Response(status=201)
 
+
 # endregion
+
+class ProductPriceCreateAPIView(CreateAPIView):
+    """ Создание цены продукта."""
+
+    serializer_class = PaymentsSerializer
+    queryset = CustomUser.objects.all()
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        pay = serializer.save(user=self.request.user)
+        price = create_stripe_price_amount(pay.product_name, pay.amount)
+        session_id, session_link = create_stripe_session(price)
+        pay.session_id = session_id
+        pay.link = session_link
+        pay.save()

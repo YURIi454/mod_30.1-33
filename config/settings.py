@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'django_filters',
+    'django_celery_beat',
 
     'users',
     'on_learning',
@@ -91,6 +92,15 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # TODO
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'User Management API',
     'DESCRIPTION': 'API для регистрации, получения и удаления пользователей.',
@@ -131,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -167,3 +177,34 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 STRIPE_API_KEY = (os.getenv('API_KEY_STRIPE'))
+SUCCESS_URL_SESSION = '"http://127.0.0.1:8000/"'
+
+CELERY_BROKER_URL = os.getenv('REDIS_LOCATION')
+CELERY_RESULT_BACKEND = os.getenv('REDIS_LOCATION')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_ACKS_LATE = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_SOFT_TIME_LIMIT = 28 * 60
+CELERY_TASK_IGNORE_RESULT = False
+from kombu import Queue
+
+CELERY_QUEUES = (
+    Queue('default', routing_key='task.#'),
+    Queue('high_priority', routing_key='high.#'),
+    Queue('low_priority', routing_key='low.#')
+)
+CELERY_ROUTES = {
+    'myapp.tasks.high_prio_task': {'queue': 'high_priority'},
+    'myapp.tasks.low_prio_task': {'queue': 'low_priority'}
+}
+CELERY_ENABLE_UTC = True
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_SEND_EVENTS = True
+CELERY_EVENT_QUEUE_EXPIRES = 60
+CELERY_PREFETCH_MULTIPLIER = 1
+CELERY_MAX_MEMORY_PER_CHILD = 100000
+CELERY_TASK_RETRY_ON_EXCEPTION = True
+CELERY_TASK_MAX_RETRIES = 3

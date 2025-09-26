@@ -1,14 +1,6 @@
-DRF
 
-DRF — Проект представляет собой RESTful API для образовательной платформы с курсами, 
-уроками, подписками и платежами.
-Add commentMore actions
 
 ## Запуск проекта через Docker Compose
-
-### Предварительные требования
-- Установленные Docker и Docker Compose
-- Файл `.env` с необходимыми переменными окружения
 
 ## Установка
 
@@ -38,7 +30,6 @@ docker-compose exec web python manage.py migrate
 
 
 2. API endpoints
-Получение списка курсов:
 * Регистрация.(`users/create/`)
 * Список курсов.(`'payments/list/'`)
 

@@ -1,5 +1,5 @@
 import stripe
-
+import os
 from config.settings import STRIPE_API_KEY
 
 stripe.api_key = STRIPE_API_KEY
@@ -25,7 +25,7 @@ def create_stripe_session(price: dict) -> tuple:
     """ Создание сессии."""
 
     session = stripe.checkout.Session.create(
-        success_url="http://127.0.0.1:8000/",
+        success_url=os.getenv('SUCCESS_URL_SESSION'),
         line_items=[{"price": price.get("id"), "quantity": 1}],
         mode="payment"
     )

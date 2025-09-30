@@ -12,7 +12,7 @@ from on_learning.models import Course, Lesson, Subscribe
 from on_learning.serializers import CourseSerializer, LessonSerializer
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
+from on_learning.tasks import send_mail_course_update
 from users.models import CustomUser
 from users.permissions import OwnerOrManagerPerm, OwnerOnlyPerm
 from users.serializers import PaymentsSerializer
@@ -50,6 +50,10 @@ class CourseUpdateAPIView(UpdateAPIView):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [OwnerOrManagerPerm]
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        send_mail_course_update.delay(course.pk)
 
 
 class CourseDeleteAPIView(DestroyAPIView):

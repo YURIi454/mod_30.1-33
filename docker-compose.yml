@@ -5,7 +5,7 @@ services:
     build: .
     command: sh -c "echo 'HOST=db' >> .env && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/projecthome30.1
+      - .:/mod_home30.1_35.2
       - static_volume:/mod_30.1_35.2/static
       - media_volume:/mod_30.1_35.2/media
     env_file:

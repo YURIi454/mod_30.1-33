@@ -21,51 +21,44 @@ class TestCustomUser(APITestCase):
         self.course = Course.objects.create(
             name='Test_Course_2',
             description='Test_Course_2',
-            owner=self.user,
-        )
+            owner=self.user, )
 
         self.lesson = Lesson.objects.create(
             name='Test_Lesson_2',
             description='Test_Lesson_2',
             owner=self.user,
-            course=self.course,
-        )
+            course=self.course, )
 
         self.payment = Payments.objects.create(
             name='Test_Payment_1',
             user=self.user,
             course=self.course,
-            lesson=self.lesson,
-        )
+            lesson=self.lesson, )
 
     def test_create_user(self):
         """ Тест создания пользователя. """
 
         data = {
-            'email': 'user@one.com',
-        }
+            'email': 'user@one.com', }
 
         response = self.client.post('/users/user/create/', data=data)
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_201_CREATED
-        )
+            status.HTTP_201_CREATED)
 
     def test_update_user(self):
         """ Тест обновления пользователя. """
 
         data = {
             'email': 'test@test.com',
-            'username': 'Auth_User_Update',
-        }
+            'username': 'Auth_User_Update', }
 
         response = self.client.patch(f'/users/user/update/{self.user.id}/', data=data)
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_200_OK
-        )
+            status.HTTP_200_OK)
 
     def test_detail_user(self):
         """ Тест вывода информации о пользователе. """
@@ -75,8 +68,7 @@ class TestCustomUser(APITestCase):
         self.assertEqual(response.json(), {
             'email': 'test@test.com',
             'phone_number': None,
-            'avatar': None}
-                         )
+            'avatar': None})
 
     def test_delete_user(self):
         """ Тест удаления пользователя. """
@@ -85,8 +77,7 @@ class TestCustomUser(APITestCase):
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_301_MOVED_PERMANENTLY
-        )
+            status.HTTP_301_MOVED_PERMANENTLY)
 
     def test_create_payment(self):
         """ Тест создания платежа. """
@@ -96,30 +87,26 @@ class TestCustomUser(APITestCase):
             'user': self.user.id,
             'course': self.course.id,
             'lesson': self.lesson.id,
-            'amount': 38.4,
-        }
+            'amount': 38.4, }
 
         response = self.client.post('/users/payments/create/', data=data)
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_201_CREATED
-        )
+            status.HTTP_201_CREATED)
 
     def test_update_payment(self):
         """ Тест обновления платежа. """
 
         data = {
             'name': 'Test_Payment_1',
-            'amount': 134.4,
-        }
+            'amount': 134.4, }
 
         response = self.client.patch(f'/users/payments/update/{self.payment.id}/', data=data)
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_200_OK
-        )
+            status.HTTP_200_OK)
 
     def test_create_subscription(self):
         """ Тест создание подписки. """

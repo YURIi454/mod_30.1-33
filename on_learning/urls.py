@@ -9,8 +9,7 @@ from on_learning.views import (
     LessonRetrieveAPIView,
     LessonUpdateAPIView,
     ProductPriceCreateAPIView,
-    SubscribeView
-)
+    SubscribeView)
 
 app_name = 'on_learning'
 
@@ -24,5 +23,4 @@ urlpatterns = [
                   path('lesson/update/<int:pk>/', LessonUpdateAPIView.as_view(), name='lesson_update'),
                   path('lesson/delete/<int:pk>/', LessonDeleteAPIView.as_view(), name='lesson_delete'),
                   path('subscribe/', SubscribeView.as_view(), name='subscribe'),
-                  path('product_create/', ProductPriceCreateAPIView.as_view(), name='product_create'),
-              ] + router.urls
+                  path('product_create/', ProductPriceCreateAPIView.as_view(), name='product_create'), ] + router.urls

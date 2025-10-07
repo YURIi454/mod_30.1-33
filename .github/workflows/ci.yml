@@ -116,8 +116,8 @@ jobs:
           fi
           cd "\$DEPLOY_DIR"
           git fetch origin
-          git checkout "feature/35.2-CI/CD_and_GitHub_Actions"
-          git reset --hard "origin/feature/35.2-CI/CD_and_GitHub_Actions"
+          git checkout "main/develop/h_w_35.2"
+          git reset --hard "main/develop/h_w_35.2"
           EOF
       - name: Install dependencies on server
         run: |

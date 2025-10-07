@@ -58,7 +58,7 @@ jobs:
           poetry install --no-root
       - name: Makemigrations
         env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DB_NAME: spa-web_application
           DB_USER: postgres
           DB_PASSWORD: 123456
@@ -67,7 +67,7 @@ jobs:
         run: poetry run python manage.py makemigrations
       - name: Run tests
         env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DB_NAME: spa-web_application
           DB_USER: postgres
           DB_PASSWORD: 1234
@@ -143,13 +143,13 @@ jobs:
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
           cd "${{ secrets.DEPLOY_DIR }}"
           cat > .env <<EOL
-          SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
-          PUBLIC_API_KEY_STRIPE=${{ secrets.PUBLIC_API_KEY_STRIPE }}
-          DB_NAME=${{ secrets.DB_NAME }}
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          DB_HOST=db
-          DB_PORT=5432
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
+          API_KEY_STRIPE=${{ secrets.API_KEY_STRIPE }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          HOST=db
+          PORT=5432
           EOL
           EOF
       - name: Install and start Docker compose

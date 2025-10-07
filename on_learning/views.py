@@ -1,23 +1,20 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 
 from on_learning.models import Course, Lesson, Subscribe
 # from on_learning.paginators import LessonPagination TODO заданы глобальные настройки пагинации
 from on_learning.serializers import CourseSerializer, LessonSerializer
-
-from rest_framework.permissions import IsAuthenticated, AllowAny
 from on_learning.tasks import send_mail_course_update
 from users.models import CustomUser
-from users.permissions import OwnerOrManagerPerm, OwnerOnlyPerm
+from users.permissions import OwnerOnlyPerm, OwnerOrManagerPerm
 from users.serializers import PaymentsSerializer
 from users.services import create_stripe_price_amount, create_stripe_session
-
 
 # region CRUD для курса
 

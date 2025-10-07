@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import DO_NOTHING, CASCADE
+from django.db.models import CASCADE, DO_NOTHING
 
 
 class CustomUser(AbstractUser):

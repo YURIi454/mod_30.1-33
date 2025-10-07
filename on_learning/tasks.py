@@ -1,11 +1,11 @@
+from datetime import timedelta
+
 from celery import shared_task
 from django.core.mail import send_mail
-from datetime import timedelta
 from django.utils import timezone
 
 from config.settings import EMAIL_HOST
-from on_learning.models import Subscribe
-from on_learning.models import Course
+from on_learning.models import Course, Subscribe
 from users.models import CustomUser
 
 

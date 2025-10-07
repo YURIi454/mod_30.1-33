@@ -1,5 +1,5 @@
-from rest_framework.test import APITestCase
 from rest_framework import status
+from rest_framework.test import APITestCase
 
 from on_learning.models import Course, Lesson, Subscribe
 from users.models import CustomUser, Payments

@@ -1,17 +1,18 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import IsAuthenticated
-
 from rest_framework.generics import (
     CreateAPIView,
+    DestroyAPIView,
     ListAPIView,
     RetrieveAPIView,
-    UpdateAPIView,
-    DestroyAPIView, RetrieveUpdateAPIView)
+    RetrieveUpdateAPIView,
+    UpdateAPIView
+)
+from rest_framework.permissions import IsAuthenticated
 
-from users.models import Payments, CustomUser
+from users.models import CustomUser, Payments
 from users.permissions import OwnerOnlyPerm
-from users.serializers import PaymentsSerializer, CustomUserSerializer
+from users.serializers import CustomUserSerializer, PaymentsSerializer
 
 
 # region CRUD user

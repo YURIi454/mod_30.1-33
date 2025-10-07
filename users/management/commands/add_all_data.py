@@ -1,9 +1,11 @@
+from decimal import Decimal
+
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
-from django.contrib.auth import get_user_model
-from users.models import Payments
+
 from on_learning.models import Course, Lesson
-from decimal import Decimal
+from users.models import Payments
 
 
 class Command(BaseCommand):

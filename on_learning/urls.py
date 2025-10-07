@@ -4,12 +4,12 @@ from rest_framework.routers import DefaultRouter
 from on_learning.views import (
     CourseViewSet,
     LessonCreateAPIView,
+    LessonDeleteAPIView,
     LessonListAPIView,
     LessonRetrieveAPIView,
     LessonUpdateAPIView,
-    LessonDeleteAPIView,
-    SubscribeView,
     ProductPriceCreateAPIView,
+    SubscribeView
 )
 
 app_name = 'on_learning'

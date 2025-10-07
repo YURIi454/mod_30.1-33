@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import RESTRICT, SET_NULL, CASCADE
+from django.db.models import CASCADE, RESTRICT, SET_NULL
 
 from config.settings import AUTH_USER_MODEL
 

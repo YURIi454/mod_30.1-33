@@ -1,5 +1,7 @@
 import re
+
 from rest_framework.exceptions import ValidationError
+
 from config.settings import ALLOWED_URLS
 
 

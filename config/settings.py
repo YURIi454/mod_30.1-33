@@ -181,10 +181,6 @@ CELERY_QUEUES = (
     Queue("high_priority", routing_key="high.#"),
     Queue("low_priority", routing_key="low.#"),
 )
-CELERY_ROUTES = {
-    "myapp.tasks.high_prio_task": {"queue": "high_priority"},
-    "myapp.tasks.low_prio_task": {"queue": "low_priority"},
-}
 
 CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = "Europe/Moscow"

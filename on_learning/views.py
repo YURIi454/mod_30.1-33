@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from on_learning.models import Course, Lesson, Subscribe
+
 # from on_learning.paginators import LessonPagination TODO заданы глобальные настройки пагинации
 from on_learning.serializers import CourseSerializer, LessonSerializer
 from on_learning.tasks import send_mail_course_update
@@ -19,14 +20,15 @@ from users.services import create_stripe_price_amount, create_stripe_session
 
 # region CRUD для курса
 
+
 class CourseCreateAPIView(CreateAPIView):
-    """ Создание курса. """
+    """Создание курса."""
 
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        """ Заполнение поля owner данными текущего пользователя. """
+        """Заполнение поля owner данными текущего пользователя."""
 
         new_course = serializer.save()
         new_course.owner = self.request.user
@@ -34,7 +36,7 @@ class CourseCreateAPIView(CreateAPIView):
 
 
 class CourseViewSet(ModelViewSet):
-    """ Представление для курса. """
+    """Представление для курса."""
 
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
@@ -43,7 +45,7 @@ class CourseViewSet(ModelViewSet):
 
 
 class CourseUpdateAPIView(UpdateAPIView):
-    """ Обновление курса. """
+    """Обновление курса."""
 
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
@@ -55,7 +57,7 @@ class CourseUpdateAPIView(UpdateAPIView):
 
 
 class CourseDeleteAPIView(DestroyAPIView):
-    """ Удаление курса. """
+    """Удаление курса."""
 
     serializer_class = CourseSerializer
     permission_classes = [OwnerOnlyPerm]
@@ -63,15 +65,16 @@ class CourseDeleteAPIView(DestroyAPIView):
 
 # endregion
 
+
 # region CRUD для урока
 class LessonCreateAPIView(CreateAPIView):
-    """ Создание урока. """
+    """Создание урока."""
 
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        """ Заполнение поля owner данными текущего пользователя. """
+        """Заполнение поля owner данными текущего пользователя."""
 
         new_lesson = serializer.save()
         new_lesson.owner = self.request.user
@@ -79,7 +82,7 @@ class LessonCreateAPIView(CreateAPIView):
 
 
 class LessonListAPIView(ListAPIView):
-    """ Просмотр списка уроков. """
+    """Просмотр списка уроков."""
 
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
@@ -91,7 +94,7 @@ class LessonListAPIView(ListAPIView):
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):
-    """ Просмотр одного урока. """
+    """Просмотр одного урока."""
 
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
@@ -99,7 +102,7 @@ class LessonRetrieveAPIView(RetrieveAPIView):
 
 
 class LessonUpdateAPIView(UpdateAPIView):
-    """ Обновление одного урока. """
+    """Обновление одного урока."""
 
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
@@ -107,7 +110,7 @@ class LessonUpdateAPIView(UpdateAPIView):
 
 
 class LessonDeleteAPIView(DestroyAPIView):
-    """ Удаление урока. """
+    """Удаление урока."""
 
     queryset = Lesson.objects.all()
     permission_classes = [OwnerOnlyPerm]
@@ -115,9 +118,10 @@ class LessonDeleteAPIView(DestroyAPIView):
 
 # endregion
 
+
 # region подписка
 class SubscribeView(APIView):
-    """  Добавление и удаление подписки пользователя. """
+    """Добавление и удаление подписки пользователя."""
 
     permission_classes = [IsAuthenticated]
 
@@ -138,8 +142,9 @@ class SubscribeView(APIView):
 
 # endregion
 
+
 class ProductPriceCreateAPIView(CreateAPIView):
-    """ Создание цены продукта."""
+    """Создание цены продукта."""
 
     serializer_class = PaymentsSerializer
     queryset = CustomUser.objects.all()

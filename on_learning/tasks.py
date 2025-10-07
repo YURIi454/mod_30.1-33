@@ -11,10 +11,10 @@ from users.models import CustomUser
 
 @shared_task
 def send_mail_course_update(course_id):
-    """ Рассылка уведомлений об обновлении. """
+    """Рассылка уведомлений об обновлении."""
 
     course: Course = Course.objects.get(id=course_id)
-    subscribers = Subscribe.objects.filter(course=course).select_related('user')
+    subscribers = Subscribe.objects.filter(course=course).select_related("user")
 
     recipients = []
 
@@ -36,7 +36,7 @@ def send_mail_course_update(course_id):
 
 @shared_task
 def check_active_status_user():
-    """ Проверка активности пользователя. """
+    """Проверка активности пользователя."""
 
     time_zone = timezone.now() - timedelta(days=30)
     users_to_deactivate = CustomUser.objects.filter(last_login__lt=time_zone, is_active=True)

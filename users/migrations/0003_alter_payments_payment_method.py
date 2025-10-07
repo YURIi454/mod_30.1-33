@@ -5,15 +5,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('users', '0002_payments'),
+        ("users", "0002_payments"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='payments',
-            name='payment_method',
-            field=models.CharField(choices=[('cache', 'наличные'),
-                                            ('transfer', 'перевод'), ('bonuses', 'бонусы и акции')],
-                                   default='transfer', verbose_name='способ оплаты'),
+            model_name="payments",
+            name="payment_method",
+            field=models.CharField(
+                choices=[("cache", "наличные"), ("transfer", "перевод"), ("bonuses", "бонусы и акции")],
+                default="transfer",
+                verbose_name="способ оплаты",
+            ),
         ),
     ]

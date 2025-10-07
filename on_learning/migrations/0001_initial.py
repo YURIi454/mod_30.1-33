@@ -7,43 +7,46 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Course',
+            name="Course",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('description', models.TextField(max_length=1000)),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='images/', verbose_name='Изображение')),
-                ('created_at', models.DateTimeField(auto_now=True, verbose_name='Добавлен')),
-                ('updated_at', models.DateTimeField(auto_now_add=True, verbose_name='Изменён')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=150, unique=True)),
+                ("description", models.TextField(max_length=1000)),
+                ("preview", models.ImageField(blank=True, null=True, upload_to="images/", verbose_name="Изображение")),
+                ("created_at", models.DateTimeField(auto_now=True, verbose_name="Добавлен")),
+                ("updated_at", models.DateTimeField(auto_now_add=True, verbose_name="Изменён")),
             ],
             options={
-                'verbose_name': 'Курс',
-                'verbose_name_plural': 'Курсы',
-                'ordering': ['name'],
+                "verbose_name": "Курс",
+                "verbose_name_plural": "Курсы",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Lesson',
+            name="Lesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('description', models.TextField(max_length=1000)),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='images/', verbose_name='Изображение')),
-                ('video', models.URLField(blank=True, null=True, verbose_name='Ссылка на видео')),
-                ('created_at', models.DateTimeField(auto_now=True, verbose_name='Добавлен')),
-                ('updated_at', models.DateTimeField(auto_now_add=True, verbose_name='Изменён')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='on_learning.course',
-                                             verbose_name='Курс')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=150, unique=True)),
+                ("description", models.TextField(max_length=1000)),
+                ("preview", models.ImageField(blank=True, null=True, upload_to="images/", verbose_name="Изображение")),
+                ("video", models.URLField(blank=True, null=True, verbose_name="Ссылка на видео")),
+                ("created_at", models.DateTimeField(auto_now=True, verbose_name="Добавлен")),
+                ("updated_at", models.DateTimeField(auto_now_add=True, verbose_name="Изменён")),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.RESTRICT, to="on_learning.course", verbose_name="Курс"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Урок',
-                'verbose_name_plural': 'Уроки',
-                'ordering': ['name'],
+                "verbose_name": "Урок",
+                "verbose_name_plural": "Уроки",
+                "ordering": ["name"],
             },
         ),
     ]

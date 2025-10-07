@@ -59,20 +59,20 @@ jobs:
       - name: Makemigrations
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DB_NAME: postgres
-          DB_USER: postgres
-          DB_PASSWORD: 123456
-          DB_HOST: localhost
-          DB_PORT: 5432
+          NAME: postgres
+          USER: postgres
+          PASSWORD: 123456
+          HOST: localhost
+          PORT: 5432
         run: poetry run python manage.py makemigrations
       - name: Run tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DB_NAME: postgres
-          DB_USER: postgres
-          DB_PASSWORD: 123456
-          DB_HOST: localhost
-          DB_PORT: 5432
+          NAME: postgres
+          USER: postgres
+          PASSWORD: 123456
+          HOST: localhost
+          PORT: 5432
         run: poetry run python manage.py test
 
   deploy:

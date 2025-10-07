@@ -34,9 +34,9 @@ services:
   db:
     image: postgres:16.0
     environment:
-      - USER=postgres
-      - PASSWORD=987987987
-      - NAME=check_deploy
+      - USER: ${USER}
+      - PASSWORD: ${PASSWORD}
+      - NAME: ${NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

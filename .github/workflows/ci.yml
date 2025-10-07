@@ -59,7 +59,7 @@ jobs:
       - name: Makemigrations
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          NAME: postgres
+          NAME: test_db
           USER: postgres
           PASSWORD: 123456
           HOST: localhost
@@ -68,7 +68,7 @@ jobs:
       - name: Run tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          NAME: postgres
+          NAME: test_db
           USER: postgres
           PASSWORD: 123456
           HOST: localhost
@@ -145,9 +145,9 @@ jobs:
           cat > .env <<EOL
           SECRET_KEY=${{ secrets.SECRET_KEY }}
           API_KEY_STRIPE=${{ secrets.API_KEY_STRIPE }}
-          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          NAME=${{ secrets.POSTGRES_DB }}
+          USER=${{ secrets.POSTGRES_USER }}
+          PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
           HOST=db
           PORT=5432
           EOL

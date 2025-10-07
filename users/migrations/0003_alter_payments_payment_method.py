@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0002_payments'),
     ]
@@ -13,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='payments',
             name='payment_method',
-            field=models.CharField(choices=[('cache', 'наличные'), ('transfer', 'перевод'), ('bonuses', 'бонусы и акции')], default='transfer', verbose_name='способ оплаты'),
+            field=models.CharField(choices=[('cache', 'наличные'),
+                                            ('transfer', 'перевод'), ('bonuses', 'бонусы и акции')],
+                                   default='transfer', verbose_name='способ оплаты'),
         ),
     ]

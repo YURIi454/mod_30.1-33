@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('on_learning', '0002_course_owner_lesson_owner'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -21,8 +20,10 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True, max_length=150, null=True, verbose_name='Описание')),
                 ('created_at', models.DateTimeField(auto_now=True, verbose_name='Добавлена')),
                 ('updated_at', models.DateTimeField(auto_now_add=True, verbose_name='Изменена')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='on_learning.course', verbose_name='Курс')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='on_learning.course',
+                                             verbose_name='Курс')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL,
+                                           verbose_name='Пользователь')),
             ],
             options={
                 'verbose_name': 'Подписка',

@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('on_learning', '0001_initial'),
         ('users', '0001_initial'),
@@ -20,12 +19,17 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=150, unique=True, verbose_name='номер платежа')),
                 ('payment_day', models.DateTimeField(blank=True, null=True, verbose_name='дата платежа')),
                 ('amount', models.DecimalField(decimal_places=2, default=0.0, max_digits=8, verbose_name='сумма')),
-                ('payment_method', models.CharField(blank=True, choices=[('cache', 'наличные'), ('transfer', 'перевод'), ('bonuses', 'бонусы и акции')], default='transfer', null=True, verbose_name='способ оплаты')),
+                ('payment_method', models.CharField(blank=True, choices=[('cache', 'наличные'), ('transfer', 'перевод'),
+                                                                         ('bonuses', 'бонусы и акции')],
+                                                    default='transfer', null=True, verbose_name='способ оплаты')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='создан')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='изменён')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='on_learning.course', verbose_name='курс')),
-                ('lesson', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='on_learning.lesson', verbose_name='урок')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='оплатил')),
+                ('course', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='on_learning.course',
+                                             verbose_name='курс')),
+                ('lesson', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='on_learning.lesson',
+                                             verbose_name='урок')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL,
+                                           verbose_name='оплатил')),
             ],
             options={
                 'verbose_name': 'Платёж',

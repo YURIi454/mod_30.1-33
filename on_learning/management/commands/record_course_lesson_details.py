@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from on_learning.models import Course, Lesson
 
 
-class Command(BaseCommand):# pragma: no cover
+class Command(BaseCommand):  # pragma: no cover
     """ Заполнение таблиц ''курс и 'урок'. """
 
     help = 'Заполняет базу данных курсом и уроками.'

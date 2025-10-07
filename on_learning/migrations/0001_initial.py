@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -38,7 +37,8 @@ class Migration(migrations.Migration):
                 ('video', models.URLField(blank=True, null=True, verbose_name='Ссылка на видео')),
                 ('created_at', models.DateTimeField(auto_now=True, verbose_name='Добавлен')),
                 ('updated_at', models.DateTimeField(auto_now_add=True, verbose_name='Изменён')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='on_learning.course', verbose_name='Курс')),
+                ('course', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='on_learning.course',
+                                             verbose_name='Курс')),
             ],
             options={
                 'verbose_name': 'Урок',

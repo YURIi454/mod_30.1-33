@@ -34,8 +34,8 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 1234
-          POSTGRES_DB: spa-web_application
+          POSTGRES_PASSWORD: 123456
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -59,7 +59,7 @@ jobs:
       - name: Makemigrations
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DB_NAME: spa-web_application
+          DB_NAME: postgres
           DB_USER: postgres
           DB_PASSWORD: 123456
           DB_HOST: localhost
@@ -68,9 +68,9 @@ jobs:
       - name: Run tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DB_NAME: spa-web_application
+          DB_NAME: postgres
           DB_USER: postgres
-          DB_PASSWORD: 1234
+          DB_PASSWORD: 123456
           DB_HOST: localhost
           DB_PORT: 5432
         run: poetry run python manage.py test

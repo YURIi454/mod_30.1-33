@@ -16,6 +16,7 @@ from users.permissions import OwnerOnlyPerm, OwnerOrManagerPerm
 from users.serializers import PaymentsSerializer
 from users.services import create_stripe_price_amount, create_stripe_session
 
+
 # region CRUD для курса
 
 class CourseCreateAPIView(CreateAPIView):

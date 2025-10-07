@@ -25,7 +25,7 @@ class CreateCustomUser(CreateAPIView):
 class UpdateCustomUser(RetrieveUpdateAPIView):
     """ Редактирование пользователя. """
 
-    filter_backends = [DjangoFilterBackend, OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
     permission_classes = [IsAuthenticated, ]
     serializer_class = CustomUserSerializer
 
@@ -36,7 +36,7 @@ class UpdateCustomUser(RetrieveUpdateAPIView):
 class CustomUserDetail(RetrieveAPIView):
     """ Просмотр данных пользователя. """
 
-    filter_backends = [DjangoFilterBackend, OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
     permission_classes = [IsAuthenticated, ]
     serializer_class = CustomUserSerializer
 
@@ -71,7 +71,7 @@ class PaymentListAPIView(ListAPIView):
     queryset = Payments.objects.all()
     serializer_class = PaymentsSerializer
 
-    filter_backends = [DjangoFilterBackend, OrderingFilter,]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
     search_fields = ["course", "lesson", "payment_method"]
     ordering_fields = ["payment_day"]
     ordering = ["-payment_day"]
@@ -81,7 +81,7 @@ class PaymentUpdateAPIView(UpdateAPIView):
     """ Обновление платежа. """
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
     serializer_class = PaymentsSerializer
 
     def get_queryset(self):

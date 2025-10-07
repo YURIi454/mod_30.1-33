@@ -22,7 +22,7 @@ jobs:
       - name: Install lint dependencies
         run: |
           poetry lock
-          poetry install --only lint --no-root
+          poetry install --no-root
       - name: Run Flake8
         run: poetry run flake8 .
 

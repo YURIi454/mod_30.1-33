@@ -1,4 +1,4 @@
-# from rest_framework.pagination import PageNumberPagination TODO заданы глобальные настройки пагинации
+# from rest_framework.pagination import PageNumberPagination
 #
 #
 # class CoursePagination(PageNumberPagination):

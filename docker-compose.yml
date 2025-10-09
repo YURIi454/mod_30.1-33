@@ -1,30 +1,46 @@
-version: "3.9"
+version: "3.8"
 
 services:
   web:
     build: .
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "echo 'HOST=db' >> .env && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/mod_home30.1_35.2
+      - static_volume:/mod_30.1_35.2/static
+      - media_volume:/mod_30.1_35.2/media
     env_file:
       - .env
-    volumes:
-      - .:/code
-      - static_volume:/code/static
+    environment:
+      - HOST=db
+    depends_on:
+      - db
+      - redis
     ports:
       - "8000:8000"
+
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx_proxy_mod_30.1_35.2
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/usr/share/nginx/html/static
+      - media_volume:/media
     depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - web
 
   db:
-    image: postgres:17
-    env_file:
-      - .env
+    image: postgres:16.0
+    environment:
+      - USER: ${USER}
+      - PASSWORD: ${PASSWORD}
+      - NAME: ${NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -32,44 +48,46 @@ services:
       - "5432:5432"
 
   redis:
-    image: redis
-    env_file:
-      - .env
+    image: redis:7
+    container_name: redis_mod_30.1_35.2
     volumes:
       - redis_data:/data
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-    ports:
-      - "6379:6379"
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   celery:
     build: .
-    command: celery -A config worker -l INFO
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/mod_home30.1_35.2
+    environment:
+      - HOST=db
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    image: mod_30.1-33/celery
+      - db
+      - redis
 
   celery_beat:
     build: .
-    command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: sh -c "echo 'HOST=db' >> .env && celery -A config beat --loglevel=info"
+    volumes:
+      - .:/mod_home30.1_35.2
+    environment:
+      - HOST=db
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    image: mod_30.1-33/celery_beat
+      - web
+      - db
+      - redis
+      - celery
 
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
   redis_data:

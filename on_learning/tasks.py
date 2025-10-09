@@ -1,20 +1,20 @@
+from datetime import timedelta
+
 from celery import shared_task
 from django.core.mail import send_mail
-from datetime import timedelta
 from django.utils import timezone
 
 from config.settings import EMAIL_HOST
-from on_learning.models import Subscribe
-from on_learning.models import Course
+from on_learning.models import Course, Subscribe
 from users.models import CustomUser
 
 
 @shared_task
 def send_mail_course_update(course_id):
-    """ Рассылка уведомлений об обновлении. """
+    """Рассылка уведомлений об обновлении."""
 
     course: Course = Course.objects.get(id=course_id)
-    subscribers = Subscribe.objects.filter(course=course).select_related('user')
+    subscribers = Subscribe.objects.filter(course=course).select_related("user")
 
     recipients = []
 
@@ -36,7 +36,7 @@ def send_mail_course_update(course_id):
 
 @shared_task
 def check_active_status_user():
-    """ Проверка активности пользователя. """
+    """Проверка активности пользователя."""
 
     time_zone = timezone.now() - timedelta(days=30)
     users_to_deactivate = CustomUser.objects.filter(last_login__lt=time_zone, is_active=True)

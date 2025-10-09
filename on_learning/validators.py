@@ -1,10 +1,12 @@
 import re
+
 from rest_framework.exceptions import ValidationError
+
 from config.settings import ALLOWED_URLS
 
 
 class CorrectURLValidator:
-    """ Проверка вводимого URL """
+    """Проверка вводимого URL"""
 
     def __init__(self, field):
         self.field = field

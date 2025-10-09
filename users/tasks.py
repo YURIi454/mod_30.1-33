@@ -8,7 +8,7 @@ from users.models import CustomUser
 
 @shared_task
 def deactivated_users():
-    """ Проверка. """
+    """Проверка."""
 
     time_zone = timezone.now() - timedelta(days=30)
     users_to_deactivate = CustomUser.objects.filter(last_login__lt=time_zone, is_active=True)

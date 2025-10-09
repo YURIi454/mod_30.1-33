@@ -1,14 +1,14 @@
-from django.utils.timezone import now
 from decimal import Decimal
 
 from django.core.management.base import BaseCommand
+from django.utils.timezone import now
 
 from on_learning.models import Course, Lesson
-from users.models import Payments, CustomUser
+from users.models import CustomUser, Payments
 
 
 class Command(BaseCommand):
-    """ Заполнение таблицы 'платежи'. """
+    """Заполнение таблицы 'платежи'."""
 
     help = "Заполнение таблицы 'платежи'. "
 
